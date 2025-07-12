@@ -1,0 +1,174 @@
+BEGIN
+    # Initialize an empty list to store tasks
+    tasks = []
+
+    # Function to add a new task
+    FUNCTION add_task()
+        PRINT "==== Add a New Task ===="
+        
+        # Get task details from user
+        task_name = INPUT "Enter task name: "
+        task_description = INPUT "Enter task description: "
+        
+        # Validate priority input
+        WHILE True
+            priority = INPUT "Enter task priority (High/Medium/Low): "
+            priority = Capitalize(priority)
+            IF priority IN ["High", "Medium", "Low"]
+                BREAK
+            PRINT "Invalid Priority! Enter High, Medium or Low."
+        
+        # Validate due date input
+        WHILE True
+            due_date = INPUT "Enter task due date (YYYY-MM-DD): "
+            IF due_date format is YYYY-MM-DD AND date is valid
+                BREAK
+            PRINT "Invalid Due Date! Enter valid due date in YYYY-MM-DD format."
+        
+        # Create task as list and add to tasks
+        task = [task_name, task_description, priority, due_date]
+        APPEND task TO tasks
+        PRINT "Task [task_name] added successfully"
+    END FUNCTION
+
+    # Function to view all tasks
+    FUNCTION view_task()
+        PRINT "====View All Tasks===="
+        
+        IF tasks is empty
+            PRINT "No Tasks Found."
+            RETURN
+        
+        FOR each task IN tasks WITH INDEX i
+            PRINT "Task: #[i+1]"
+            PRINT "Name: [task[0]]"
+            PRINT "Description: [task[1]]"
+            PRINT "Priority: [task[2]]"
+            PRINT "Due Date: [task[3]]"
+            PRINT separator line
+    END FUNCTION
+
+    # Function to update a task
+    FUNCTION update_task()
+        PRINT "====Update Task===="
+        
+        IF tasks is empty
+            PRINT "No Tasks Found."
+            RETURN
+        
+        # Show all tasks
+        CALL view_task()
+        
+        # Get valid task index
+        WHILE True
+            TRY
+                task_index = INPUT "Enter the task number to update: "
+                task_index = CONVERT TO INTEGER AND subtract 1
+                IF task_index is valid (0 <= index < length of tasks)
+                    BREAK
+                PRINT "Please enter a number between 1 and [length of tasks]."
+            EXCEPT
+                PRINT "Please enter a valid number."
+        
+        # Get updated values (keep current if empty)
+        PRINT "Updating Task: [tasks[task_index][0]]"
+        PRINT "(Press Enter to keep current value)"
+        
+        # Update name if provided
+        new_name = INPUT "Current Name: [current]... Enter New Name: "
+        IF new_name not empty
+            tasks[task_index][0] = new_name
+        
+        # Update description if provided
+        new_description = INPUT "Current Description: [current]... Enter New Description: "
+        IF new_description not empty
+            tasks[task_index][1] = new_description
+        
+        # Update priority with validation
+        WHILE True
+            new_priority = INPUT "Current Priority: [current]... Enter New Priority: "
+            IF new_priority is empty
+                BREAK
+            new_priority = Capitalize(new_priority)
+            IF new_priority IN ["High", "Medium", "Low"]
+                tasks[task_index][2] = new_priority
+                BREAK
+            PRINT "Invalid Priority! Enter High, Medium or Low."
+        
+        # Update due date with validation
+        WHILE True
+            new_due_date = INPUT "Current Due Date: [current]... Enter Due Date (YYYY-MM-DD): "
+            IF new_due_date is empty
+                BREAK
+            IF new_due_date format is valid
+                tasks[task_index][3] = new_due_date
+                BREAK
+            PRINT "Invalid Due Date! Enter valid due date in YYYY-MM-DD format."
+        
+        PRINT "Task #[task_index+1] updated successfully"
+    END FUNCTION
+
+    # Function to delete a task
+    FUNCTION delete_task()
+        PRINT "====Delete Task===="
+        
+        IF tasks is empty
+            PRINT "No tasks found."
+            RETURN
+        
+        # Show all tasks
+        CALL view_task()
+        
+        # Get valid task index
+        WHILE True
+            TRY
+                task_index = INPUT "Enter the task number to delete: "
+                task_index = CONVERT TO INTEGER AND subtract 1
+                IF task_index is valid (0 <= index < length of tasks)
+                    BREAK
+                PRINT "Please enter a number between 1 and [length of tasks]."
+            EXCEPT
+                PRINT "Please enter a valid number."
+        
+        # Confirm deletion
+        task_name = tasks[task_index][0]
+        confirm = INPUT "Are you sure you want to delete '[task_name]'? (Yes/No): "
+        
+        IF confirm is "yes" (case insensitive)
+            REMOVE task FROM tasks AT task_index
+            PRINT "Task '[task_name]' deleted successfully!"
+        ELSE
+            PRINT "Deletion Cancelled"
+    END FUNCTION
+
+    # Function to display main menu
+    FUNCTION display_menu()
+        PRINT "==== Personal Task Manager ===="
+        PRINT "1. Add Task"
+        PRINT "2. View Tasks"
+        PRINT "3. Update Task"
+        PRINT "4. Delete Task"
+        PRINT "5. Exit"
+    END FUNCTION
+
+    # Main program loop
+    PRINT "Welcome to Personal Task Manager!"
+    
+    WHILE True
+        CALL display_menu()
+        choice = INPUT "Enter your choice (1-5): "
+        
+        IF choice == '1'
+            CALL add_task()
+        ELSE IF choice == '2'
+            CALL view_task()
+        ELSE IF choice == '3'
+            CALL update_task()
+        ELSE IF choice == '4'
+            CALL delete_task()
+        ELSE IF choice == '5'
+            PRINT "Exiting the Task Manager. Goodbye!"
+            BREAK
+        ELSE
+            PRINT "Invalid choice! Please enter a number between 1 to 5."
+END

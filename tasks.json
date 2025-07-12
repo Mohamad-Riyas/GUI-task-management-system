@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Riyas",
+        "description": "Software Engineering",
+        "priority": "Medium",
+        "due_date": "2028-12-31"
+    },
+    {
+        "name": "Irfan ",
+        "description": "Sivil Engineering",
+        "priority": "High",
+        "due_date": "2026-05-21"
+    },
+    {
+        "name": "Vipooshan",
+        "description": "Computer Science",
+        "priority": "Medium",
+        "due_date": "2027-12-30"
+    },
+    {
+        "name": "Nimal",
+        "description": "Completed A/L",
+        "priority": "Low",
+        "due_date": "2025-10-30"
+    },
+    {
+        "name": "Karthik",
+        "description": "Completed O/L",
+        "priority": "Low",
+        "due_date": "2022-02-28"
+    }
+]
